@@ -171,6 +171,36 @@ typedef SingletonModule<ShadersSourceAPI, ShadersDependencies, DependenciesAPICo
 
 ShadersSourceModule g_ShadersSourceModule;
 
+// Shares it's syntax with source engine VMTs, but uses a different extension
+class ShadersSpectacleAPI
+{
+	ShaderSystem* m_shadersspectacle;
+public:
+	typedef ShaderSystem Type;
+	STRING_CONSTANT( Name, "spectacle" );
+
+	ShadersSpectacleAPI( ShadersDependencies& dependencies ){
+		g_shadersExtension = "mat";
+		g_shadersDirectory = "materials/";
+		g_texturePrefix = "materials/";
+		g_enableDefaultShaders = false;
+		g_shaderLanguage = SHADERLANGUAGE_SOURCE;
+		g_useShaderList = false;
+		g_bitmapModule = dependencies.getBitmapModule().getTable();
+		Shaders_Construct();
+		m_shadersspectacle = &GetShaderSystem();
+	}
+	~ShadersSpectacleAPI(){
+		Shaders_Destroy();
+	}
+	ShaderSystem* getTable(){
+		return m_shadersspectacle;
+	}
+};
+
+typedef SingletonModule<ShadersSpectacleAPI, ShadersDependencies, DependenciesAPIConstructor<ShadersSpectacleAPI, ShadersDependencies> > ShadersSpectacleModule;
+
+ShadersSpectacleModule g_ShadersSpectacleModule;
 
 class ShadersNuclideAPI
 {
@@ -210,5 +240,6 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ShadersDoom3Module.selfRegister();
 	g_ShadersQuake4Module.selfRegister();
 	g_ShadersSourceModule.selfRegister();
+	g_ShadersSpectacleModule.selfRegister();
 	g_ShadersNuclideModule.selfRegister();
 }
