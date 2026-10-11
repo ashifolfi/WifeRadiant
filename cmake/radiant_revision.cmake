@@ -43,6 +43,7 @@ if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 				ERROR_QUIET
 				OUTPUT_STRIP_TRAILING_WHITESPACE
 			)
+			math(EXPR git_revision "${git_revision} - 2981") # adjust for pre-fork commit count
 			set(git_revision "${git_branch}-${git_revision}-git-${git_commit}")
 		endif()
 	endif()
